@@ -10,6 +10,7 @@ from builtins import str
 
 from flask import Blueprint, make_response, jsonify, g
 from flask_restful import reqparse, Api, inputs
+from flask import current_app
 
 from lemur.common.schema import validate_schema
 from lemur.common.utils import paginated_parser
@@ -377,6 +378,8 @@ class CertificatesUpload(AuthenticatedResource):
            :statuscode 200: no error
 
         """
+        current_app.logger.debug('Upload!')
+        
         data['creator'] = g.user
         if data.get('destinations'):
             if data.get('private_key'):

@@ -335,7 +335,7 @@ class Certificate(db.Model):
 
                 # TODO: Not supporting custom OIDs yet. https://github.com/Netflix/lemur/issues/665
                 else:
-                    current_app.logger.warning('Custom OIDs not yet supported for clone operation.')
+                    current_app.logger.warning('Custom OIDs not yet supported for clone operation!')
         except InvalidCodepoint as e:
             sentry.captureException()
             current_app.logger.warning('Unable to parse extensions due to underscore in dns name')

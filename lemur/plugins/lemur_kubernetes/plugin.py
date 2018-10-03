@@ -1,7 +1,7 @@
 """
 .. module: lemur.plugins.lemur_kubernetes.plugin
     :platform: Unix
-    :copyright: (c) 2018 by Netflix Inc., see AUTHORS for more
+    :copyright: (c) 2015 by Netflix Inc., see AUTHORS for more
     :license: Apache, see LICENSE for more details.
 
 
@@ -16,6 +16,7 @@ import urllib
 import requests
 import itertools
 
+from flask import current_app
 from lemur.certificates.models import Certificate
 from lemur.plugins.bases import DestinationPlugin
 
@@ -106,10 +107,14 @@ class KubernetesDestinationPlugin(DestinationPlugin):
 
     def upload(self, name, body, private_key, cert_chain, options, **kwargs):
 
+         current_app.logger.debug('Kubernetes!')
+
         k8_bearer = self.get_option('kubernetesAuthToken', options)
         k8_cert = self.get_option('kubernetesServerCertificate', options)
         k8_namespace = self.get_option('kubernetesNamespace', options)
         k8_base_uri = self.get_option('kubernetesURL', options)
+
+        current_app.logger.debug('Uploading certificate {0} to  {1}'.format(name, k8_base_uri))
 
         k8s_api = K8sSession(k8_bearer, k8_cert)
 
